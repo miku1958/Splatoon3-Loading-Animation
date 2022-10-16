@@ -5,11 +5,12 @@
 //  Created by 庄黛淳华 on 2022/10/12.
 //
 
-import SwiftUI
 import Extension
+import SwiftUI
 
 public struct Splatoon3LoadingView: View {
 	// https://www.spriters-resource.com/nintendo_switch/splatoon3/sheet/182952/
+	// swiftlint:disable accessibility_label_for_image
 	let bigPicture = Image("Nintendo Switch - Splatoon 3 - Loading Animation")
 	let size: CGFloat = 130
 	let countPerLine = 8
@@ -34,9 +35,9 @@ public struct Splatoon3LoadingView: View {
 		Color(hex: 0x0afe15),
 		Color(hex: 0x0acdfe),
 		Color(hex: 0xff9600),
-		Color(hex: 0xb21ca1),
+		Color(hex: 0xb21ca1)
 	]
-	
+
 	static let colorChangeFrames: [Int] = [
 		4,
 		12,
@@ -53,12 +54,10 @@ public struct Splatoon3LoadingView: View {
 
 	let displayLink = Displaylink(timeInterval: .milliseconds(60))
 
-	public init() {
-
-	}
+	public init() { }
 
     public var body: some View {
-		GeometryReader { proxy in
+		GeometryReader { _ in
 			let offsetX: CGFloat = -size * CGFloat(frame % countPerLine)
 			let offsetY: CGFloat = -size * CGFloat(frame / countPerLine)
 			bigPicture
@@ -68,6 +67,7 @@ public struct Splatoon3LoadingView: View {
 		}
 		.frame(width: size, height: size)
 		.clipped()
+		.accessibilityLabel(Text("Loading"))
 		.onAppear {
 			displayLink.setAction { [self] in
 				frame += 1
@@ -76,7 +76,7 @@ public struct Splatoon3LoadingView: View {
 				}
 				if Self.colorChangeFrames.contains(frame) {
 					var color: Color? = currentInkColor
-					while color == currentInkColor  {
+					while color == currentInkColor {
 						color = Self.inkColors.randomElement()
 					}
 					currentInkColor = color!
